@@ -350,26 +350,57 @@ module.exports = function (api, threadModel, userModel, dashBoardModel, globalMo
 				}
 			}
 			// —————  CHECK BANNED OR ONLY ADMIN BOX  ————— //
-			if (isBannedOrOnlyAdmin(userData, threadData, senderID, threadID, isGroup, commandName, message, langCode))
-				return;
-			if (!command && body.startsWith(prefix))
-				if (!hideNotiMessage.commandNotFound)
-					return await message.reply(
-						commandName ?
-							utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFound", commandName, prefix) :
-							utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFound2", prefix)
-					);
-				else
-					return true;
+if (isBannedOrOnlyAdmin(userData, threadData, senderID, threadID, isGroup, commandName, message, langCode))
+	return;
 
-			if (!command) return;
+// normalize body for case-insensitive check
+const rawBody = body;
+const bodyLower = body.toLowerCase();
+const prefixLower = prefix.toLowerCase();
+const commandNameLower = commandName?.toLowerCase();
 
-			let { usePrefix = true } = command.config;
-			if (!usePrefix && body.startsWith(prefix)) {
-						return await message.reply(` 𝚆𝚑𝚒𝚝𝙾𝚞𝚝 𝙿𝚛𝚎𝚏𝚒𝚡 𝚝𝚢𝚙𝚎 "${commandName}" 𝚌𝚘𝚖𝚖𝚊𝚗𝚍 𝚞𝚜𝚎𝚍.`);
-				}
+// command not found handler
+if (!command && bodyLower.startsWith(prefixLower)) {
+	if (!hideNotiMessage.commandNotFound)
+		return await message.reply(
+			commandName
+				? utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFound", commandName, prefix)
+				: utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFound2", prefix)
+		);
+	else return true;
+}
 
-		if (usePrefix && !body.startsWith(prefix)) return; 
+if (!command) return;
+
+// extract config
+let { usePrefix = true } = command.config;
+
+// helper: check prefix
+const hasPrefix = bodyLower.startsWith(prefixLower);
+
+// remove prefix safely if exists
+const content = hasPrefix ? rawBody.slice(prefix.length).trim() : rawBody.trim();
+
+// -------- PREFIX MODE HANDLER -------- //
+if (usePrefix === true) {
+	// MUST HAVE PREFIX
+	if (!hasPrefix) return;
+}
+
+if (usePrefix === false) {
+	// MUST NOT HAVE PREFIX
+	if (hasPrefix) return;
+}
+
+if (usePrefix === "awto") {
+	// both allowed → no restriction
+	// nothing to block
+}
+
+// optional: normalize command name matching (case-insensitive)
+const cmdUsed = (content.split(" ")[0] || "").toLowerCase();
+
+// if needed you can use cmdUsed instead of commandNameLower 
 			// ————————— CHECK MONEY REQUIREMENT (FIRST) ————————— //
                         const requiredMoney = command.config.requiredMoney;
                         if (requiredMoney && requiredMoney > 0) {
