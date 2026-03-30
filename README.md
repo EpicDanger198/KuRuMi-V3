@@ -68,22 +68,14 @@
 
 ---
 
-## 📁 Project Structure
+## Prefix setup in cmd
 
-*KuRuMi-V3*/ 
-│ 
-├── public/                 # Frontend (dashboard UI, login, logs) 
-├── bot/                    # Core bot system & commands 
-│ 
-├── config.json             # Main configuration file 
-├── configCommands.json     # Command permissions & settings 
-├── account.txt             # Session / account data 
-│ 
-├── Goat.js                 # Bot runtime process 
-├── index.js                # API server + dashboard backend 
-│ 
-└── logger/ 
-└── log.js              # Logging system |
+```bash
+usePrefix: true,  #must prefix use when call cmd
+usePrefix: false, #Whit Out prefix when no prefix call cmd
+usePrefix: "awto", #default useing cmd  when cal cmd whithOut prefix & with prefix 
+
+```
 ---
 
 ## ⚡ Quick Setup
