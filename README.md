@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://files.catbox.moe/7pl10a.jpg" alt="KuRuMi-V3 Banner" width="100%">
+  <img src="https://files.catbox.moe/zr2ktu.jpg" alt="KuRuMi-V3 Banner" width="100%">
 </p>
 
 <h1 align="center">🐱 KuRuMi-V3</h1>
