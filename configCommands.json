@@ -1,0 +1,59 @@
+{
+  "commandBanned": {},
+  "envGlobal": {
+    "weatherApiKey": "d7e795ae6a0d44aaa8abb1a0a7ac19e4",
+    "goatbotApikey": ""
+  },
+  "envCommands": {
+    "daily": {
+      "rewardFirstDay": {
+        "coin": 10000,
+        "exp": 10
+      }
+    },
+    "notification": {
+      "delayPerGroup": 250
+    },
+    "rank": {
+      "deltaNext": 5
+    },
+    "rankup": {
+      "deltaNext": 5
+    },
+    "appstore": {
+      "limitResult": 3
+    },
+    "dhbc": {
+      "reward": 1000
+    },
+    "antiout": {
+      "deltaNext": 5
+    },
+    "beautiful": {
+      "deltaNext": 5
+    },
+    "botnick": {
+      "delayPerGroup": 250
+    },
+    "clown": {
+      "deltaNext": 5
+    },
+    "hitler": {
+      "deltaNext": 5
+    },
+    "notification2": {
+      "delayPerGroup": 250
+    },
+    "notstonk": {
+      "deltaNext": 5
+    },
+    "wanted": {
+      "deltaNext": 5
+    }
+  },
+  "envEvents": {
+    "logsbot": {
+      "allow": true
+    }
+  }
+}

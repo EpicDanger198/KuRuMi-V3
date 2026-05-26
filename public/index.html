@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𝐊𝐮𝐑𝐮𝐌𝐢 𝐕𝟑 — Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f0020 0%, #1e0040 40%, #2d0060 70%, #0f0020 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .card {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 0 60px rgba(168, 85, 247, 0.15), 0 20px 60px rgba(0,0,0,0.5);
+            animation: cardIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .logo-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            animation: logoBob 2.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 12px rgba(168,85,247,0.8));
+        }
+
+        @keyframes logoBob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .logo-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #a855f7, #ec4899, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.05em;
+        }
+
+        .logo-sub {
+            color: rgba(255,255,255,0.35);
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        .field {
+            position: relative;
+            margin-bottom: 1.2rem;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 0.85rem 1rem 0.85rem 2.8rem;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .field input::placeholder { color: rgba(255,255,255,0.3); }
+
+        .field input:focus {
+            background: rgba(168, 85, 247, 0.1);
+            border-color: rgba(168, 85, 247, 0.6);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+        }
+
+        .field-icon {
+            position: absolute;
+            left: 0.85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 0.9rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 0.4rem;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5);
+        }
+
+        .btn-login:active { transform: translateY(0); }
+
+        .btn-login.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .msg {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-height: 1.2em;
+            transition: opacity 0.3s;
+        }
+
+        .msg.error { color: #f87171; }
+        .msg.success { color: #34d399; }
+
+        .footer {
+            text-align: center;
+            margin-top: 1.8rem;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="card">
+    <div class="logo-wrap">
+        <div class="logo-icon">🤖</div>
+        <div class="logo-title">KuRuMi V3</div>
+        <div class="logo-sub">Dashboard Login</div>
+    </div>
+
+    <form id="loginForm">
+        <div class="field">
+            <span class="field-icon">👤</span>
+            <input type="text" id="username" placeholder="Username" autocomplete="username" required>
+        </div>
+        <div class="field">
+            <span class="field-icon">🔒</span>
+            <input type="password" id="password" placeholder="Password" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn-login" id="loginBtn">Login</button>
+    </form>
+
+    <div class="msg" id="msg"></div>
+
+    <div class="footer">© 2026 Developed by NiSaN &nbsp;|&nbsp; v3.1.2</div>
+</div>
+
+<script>
+    // Stars
+    var starsEl = document.getElementById('stars');
+    for (var i = 0; i < 80; i++) {
+        var s = document.createElement('div');
+        s.className = 'star';
+        var sz = Math.random() * 2.5 + 0.5;
+        s.style.cssText = 'width:'+sz+'px;height:'+sz+'px;top:'+Math.random()*100+'%;left:'+Math.random()*100+'%;animation-duration:'+(1.5+Math.random()*3)+'s;animation-delay:'+(Math.random()*4)+'s';
+        starsEl.appendChild(s);
+    }
+
+    // Login form
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        var btn = document.getElementById('loginBtn');
+        var msgEl = document.getElementById('msg');
+        var username = document.getElementById('username').value.trim();
+        var password = document.getElementById('password').value;
+
+        if (!username || !password) {
+            showMsg('Please fill in all fields', 'error');
+            return;
+        }
+
+        btn.textContent = 'Logging in...';
+        btn.classList.add('loading');
+        msgEl.className = 'msg';
+        msgEl.textContent = '';
+
+        try {
+            var res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            var data = await res.json();
+            if (data.success) {
+                showMsg('✅ Login successful! Redirecting...', 'success');
+                setTimeout(function() { window.location.href = '/'; }, 800);
+            } else {
+                showMsg('❌ ' + (data.message || 'Invalid credentials'), 'error');
+                btn.textContent = 'Login';
+                btn.classList.remove('loading');
+            }
+        } catch(err) {
+            showMsg('❌ Server error. Try again.', 'error');
+            btn.textContent = 'Login';
+            btn.classList.remove('loading');
+        }
+    });
+
+    function showMsg(text, type) {
+        var msgEl = document.getElementById('msg');
+        msgEl.textContent = text;
+        msgEl.className = 'msg ' + type;
+    }
+</script>
+</body>
+</html>
