@@ -47,13 +47,13 @@
 
 ## 🧩 Access Control (Roles)
 
-| Role | Access Level       |
-|------|--------------------|
-| 4    | Premium Users      |
-| 3    | Developers         |
-| 2    | Admins             |
-| 1    | GroupAdministration|
-| 0    | Public Users       |
+| Role | Access Level        |
+|------|---------------------|
+| 4    | Premium Users       |
+| 3    | Developers          |
+| 2    | Admins              |
+| 1    | Group Administration|
+| 0    | Public Users        |
 
 > 🔐 Higher role = more power
 
@@ -61,85 +61,153 @@
 
 ## ⚙️ Restricted Commands
 
-| Command   | Role | Function |
-|----------|------|----------|
-| blanche  | R    | AI Execution |
-| themeAI  | R    | Theme AI System |
+| Command  | Role | Function         |
+|----------|------|------------------|
+| blanche  | R    | AI Execution     |
+| themeAI  | R    | Theme AI System  |
 
 ---
 
 ## Prefix setup in cmd
 
-```bash
-usePrefix: true,  #must prefix use when call cmd
-usePrefix: false, #Whit Out prefix when no prefix call cmd
-usePrefix: "awto", #default useing cmd  when cal cmd whithOut prefix & with prefix 
-
+```js
+usePrefix: true,   // must use prefix when calling cmd
+usePrefix: false,  // no prefix needed
+usePrefix: "awto", // default cmd — works both with and without prefix
 ```
+
+---
+
+## 📦 FCA Setup (kurumi-fca)
+
+KuRuMi-V3 uses **kurumi-fca** as the Facebook Chat API.
+
+### Install
+
+```bash
+npm install kurumi-fca
+```
+
+### Usage in your project
+
+```js
+const login = require("kurumi-fca");
+
+login({ appState: JSON.parse(require("fs").readFileSync("account.txt", "utf8")) }, (err, api) => {
+    if (err) return console.error(err);
+    console.log("✅ Logged in!");
+
+    api.listenMqtt((err, event) => {
+        if (err) return console.error(err);
+        api.sendMessage("Hello!", event.threadID);
+    });
+});
+```
+
+### fca.js config (select FCA package)
+
+```js
+const fcaList = {
+    kurumifca: "kurumi-fca",   // ← default, use this
+};
+const defaultFca = "kurumifca";
+module.exports = { fcaList, defaultFca };
+```
+
+> 🔗 NPM: [npmjs.com/package/kurumi-fca](https://www.npmjs.com/package/kurumi-fca)  
+> 🔗 GitHub: [github.com/N1SA9EDITZ/KURUMI-FCA](https://github.com/N1SA9EDITZ/KURUMI-FCA)
+
 ---
 
 ## ⚡ Quick Setup
 
 ### 📦 Install Dependencies
+
 ```bash
 npm install
 ```
-## ▶️ Start Bot
+
+### ▶️ Start Bot
+
 ```bash
 node index.js
 ```
-## 🔐 Dashboard Access
-> Username: admin
-> Password: admin123
+
+### 🔐 Dashboard Access
+
+> Username: `admin`  
+> Password: `admin123`
 
 ---
 
 ## 🚀 Deployment Guide
 
----
 ### 🔷 Railway
-Upload repo to GitHub
-Login to Railway
-Create New Project → Deploy from GitHub
-Select repository
-*Start Command*:
+
+1. Upload repo to GitHub
+2. Login to [Railway](https://railway.app)
+3. Create New Project → Deploy from GitHub
+4. Select repository
+5. Start Command:
+
 ```bash
 node index.js
 ```
 
 ---
-## 🔶 Render
-Login to Render
-Create New Web Service
-Connect GitHub repository
-## Build Command:
+
+### 🔶 Render
+
+1. Login to [Render](https://render.com)
+2. Create New Web Service
+3. Connect GitHub repository
+4. Build Command:
+
 ```bash
 npm install
 ```
-*Start Command*:
+
+5. Start Command:
+
 ```bash
 node index.js
 ```
 
 ---
+
 ## 🧠 System Requirements
-✅ Node.js 20x
-✅ Stable internet connection
-⚠️ Proper config.json setup required
-❌ Invalid account.txt will prevent startup
-## 📊 Project Highlights
-⚙️ Fully customizable
-🔐 Secure role system
-📡 Real-time monitoring
-🤖 AI integration ready
-🌐 Dashboard controlled
-## ⭐ Support & Contribution
-If you like this project:
-⭐ Star the repository
-🍴 Fork & customize
-🛠️ Contribute improvements
-## 📜 License
-This project is licensed under the MIT License.
-�
-> *Made with ❤️ by NiSaN*
+
+- ✅ Node.js 20x
+- ✅ Stable internet connection
+- ⚠️ Proper `config.json` setup required
+- ❌ Invalid `account.txt` will prevent startup
+
 ---
+
+## 📊 Project Highlights
+
+- ⚙️ Fully customizable
+- 🔐 Secure role system
+- 📡 Real-time monitoring
+- 🤖 AI integration ready
+- 🌐 Dashboard controlled
+
+---
+
+## ⭐ Support & Contribution
+
+If you like this project:
+
+- ⭐ Star the repository
+- 🍴 Fork & customize
+- 🛠️ Contribute improvements
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.
+
+---
+
+> *Made with ❤️ by NiSaN*
